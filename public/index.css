@@ -5,3 +5,5 @@
 .badge.female {
     background-color: lightpink;
 }
+
+.badge{z-index: 1}

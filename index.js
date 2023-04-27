@@ -29,7 +29,8 @@ let schemaCloth = new mongoose.Schema({
     title: String,
     price: Number,
     discount: Number,
-    last_price: Number
+    last_price: Number,
+    available: Boolean
 });
 
 let Cloth = mongoose.model(`cloth`, schemaCloth);
@@ -39,4 +40,23 @@ app.get('/', async function (req, res) {
     let cloth = await Cloth.find();
     res.render('index', {cloth:cloth});
 
+});
+
+app.get(`/admin`, async function (req, res){
+    let cloth = await Cloth.find();
+    res.render(`admin`, {cloth: cloth});
+});
+
+app.post(`/add`, async function(req, res){
+    let category = res.body.category
+    let cloth = new Cloth({
+        category: category, 
+        title: title, 
+        price: price, 
+        discount: discount, 
+        last_price: Number(price)*(Number(discount)/100), 
+        available: available
+    });
+    await cloth.save();
+    res.redirect('/');
 });
